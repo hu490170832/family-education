@@ -1,11 +1,15 @@
 <template>
   <div class="home">
-    <search-bar></search-bar>
+    <search-bar />
+    <Banner />
+    <Filter />
   </div>
 </template>
 
 <script>
 import searchBar from './components/searchBar'
+import Banner from './components/banner'
+import Filter from './components/filter'
 export default {
   data () {
     return {
@@ -13,7 +17,9 @@ export default {
   },
 
   components: {
-    searchBar
+    searchBar,
+    Banner,
+    Filter
   },
 
   methods: {
