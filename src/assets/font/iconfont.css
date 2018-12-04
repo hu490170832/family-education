@@ -1,24 +1,10 @@
-<script>
-export default {
-  created () {
-    // 调用API从本地缓存中获取数据
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    console.log('app created and cache logs by setStorageSync')
-  }
-}
-</script>
-
-<style>
 
 @font-face {font-family: "iconfont";
-  src: url('./assets/font/iconfont.eot?t=1543916732960'); /* IE9*/
-  src: url('./assets/font/iconfont.eot?t=1543916732960#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  src: url('iconfont.eot?t=1543916732960'); /* IE9*/
+  src: url('iconfont.eot?t=1543916732960#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAARoAAsAAAAABsQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8hkiPY21hcAAAAYAAAABWAAABhmbe0O1nbHlmAAAB2AAAAJUAAACkLlGBz2hlYWQAAAJwAAAALwAAADYTeB91aGhlYQAAAqAAAAAcAAAAJAfeA4RobXR4AAACvAAAAAwAAAAMDAAAAGxvY2EAAALIAAAACAAAAAgARABSbWF4cAAAAtAAAAAeAAAAIAEPADNuYW1lAAAC8AAAAUUAAAJtPlT+fXBvc3QAAAQ4AAAALwAAAEAjLxq1eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByeCTyby9zwv4EhhrmBoQEozAiSAwDqHAyQeJztkMERgCAMBPcAeTg+LMOHBfmyM9qjDUyCduHNbC65wCfAAmTjNAroRrguSxV5Zo28xJtqLlLfexsDPjfJdtU8+T9Vfm1Rj3dKfq1J9G2CHjuyD/oAAHicY2BiYPh/hXkNsw4DH4MaAwOjmgI7m4C4GIu5uLm6GRMzHyM7m5K6HqO6mom5HaO5mZG4HKO4mAjTu4p/JyuKi4sZtSrWKK9J43STSrK3a7V1SJKSkJBKcrBttbMHMpl2FheDFOZxpgFVVTBq/XuApkICrI8BaDEQMzDvZ0pgALpImJPRiXEf4z6m+H9AGgDFiie0AAAAeJxjYGRgYABil3qxhnh+m68M3CwMIHBDJ3cPgv5/hYWBWQfI5WBgAokCAAjjCXQAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAEAAAABAAAAAAAAAAARABSeJxjYGRgYGBmUGdgYgABEMkFhAwM/8F8BgAMmAFDAAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgTM3MT0vMy0ztYirIjMxKzMxryS/lIEBAGfGCB0A') format('woff'),
-  url('./assets/font/iconfont.ttf?t=1543916732960') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('./assets/font/iconfont.svg?t=1543916732960#iconfont') format('svg'); /* iOS 4.1- */
+  url('iconfont.ttf?t=1543916732960') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1543916732960#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -33,5 +19,3 @@ export default {
 
 .icon-xiajiantou:before { content: "\e610"; }
 
-
-</style>
