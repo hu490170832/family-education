@@ -3,6 +3,7 @@
     <search-bar />
     <Banner />
     <Filter />
+    <teacher-list :teacherList='teacherList' />
   </div>
 </template>
 
@@ -10,22 +11,29 @@
 import searchBar from './components/searchBar'
 import Banner from './components/banner'
 import Filter from './components/filter'
+import TeacherList from './components/teacherList'
+import { getTeacherList } from './services'
 export default {
-  data () {
+  data() {
     return {
+      teacherList: []
     }
   },
-
+  created() {
+    this._getTeacherList()
+  },
+  methods: {
+    async _getTeacherList() {
+      const res = await getTeacherList()
+      this.teacherList = res.data
+      console.log(this.teacherList)
+    }
+  },
   components: {
     searchBar,
     Banner,
-    Filter
-  },
-
-  methods: {
-  },
-
-  created () {
+    Filter,
+    TeacherList
   }
 }
 </script>

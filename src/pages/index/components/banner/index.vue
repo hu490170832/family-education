@@ -18,7 +18,7 @@
   const banner1 = require('@/assets/img/banner1.jpg')
   const banner2 = require('@/assets/img/banner2.jpg')
   export default {
-    data () {
+    data() {
       return {
         bannerList: [banner1, banner2]
       }

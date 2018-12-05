@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/main"
   ],
+  "cloud": true,
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#1f9dd7",
