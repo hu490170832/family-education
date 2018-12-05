@@ -1,6 +1,12 @@
 <template>
   <div class="teacher">
-    <div class="title"></div>
+    <div class="title">
+      <img src="./jiangpai.png">
+      <span class="name"></span>
+      <span class="number"></span>
+      <span class="sex"></span>
+      <span class="money"></span>
+    </div>
     <div class="content">
       
     </div>
@@ -9,7 +15,6 @@
 
 <script>
   export default {
-    
   }
 </script>
 
