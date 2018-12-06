@@ -1,5 +1,5 @@
 <template>
-  <div class="filter">
+  <div id="filter" class="filter" :class="{catch: catchUp}">
     <div class="filter-tab">
       <div class="tab-item">
         <span class="txt">时薪高低</span>
@@ -16,16 +16,51 @@
         <span class="icon iconfont icon-xiajiantou"></span>
       </div>
     </div>
+    <div class="tab-content">
+      <div class="content-one">
+
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
+    data() {
+      return {
+        catchUp: false
+      }
+    },
+    created() {
+      const query = wx.createSelectorQuery()
+      query.select('#filter').boundingClientRect()
+      query.selectViewport().scrollOffset()
+      query.exec(res=>{
+        this.filterOffsetTop = res[0].top       // #the-id节点的上边界坐标
+      })
+    },
+    onPageScroll(e) {
+      const scrollTop = e.scrollTop
+      if(scrollTop>this.filterOffsetTop) {
+        if(this.catchUp) return;
+        this.catchUp = true
+      }else {
+        if(!this.catchUp) return;
+        this.catchUp = false
+      }
+    },
+    methods: {
+    }
   }
 </script>
 
 <style lang='stylus' scoped>
   .filter
+    &.catch
+      position fixed
+      top 0
+      width 100%
+      background #fff
     .filter-tab
       display flex
       border-bottom 1px solid #e0e0e0
