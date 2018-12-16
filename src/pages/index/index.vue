@@ -26,7 +26,6 @@ export default {
     async _getTeacherList() {
       const res = await getTeacherList()
       this.teacherList = res.data
-      console.log(this.teacherList)
     }
   },
   components: {
