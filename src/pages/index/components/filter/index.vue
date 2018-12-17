@@ -36,8 +36,8 @@
       </div>
       <div class="content-item content-two" :class="{show: tableIndex==1}">
         <div class="slide-menu">
-          <div class="item">深圳市</div>
-          <div class="item">广州市</div>
+          <div class="item" :class="{active: cityIndex==0}">深圳市</div>
+          <div class="item" :class="{active: cityIndex==1}">广州市</div>
         </div>
         <div class="areaList">
           <div class="area">南山区</div>
@@ -47,6 +47,9 @@
           <div class="area">南山区</div>
           <div class="area">南山区</div>
         </div>
+      </div>
+      <div class="content-item content-three" :class="{show: tableIndex==2}">
+        
       </div>
     </div>
   </div>
@@ -59,7 +62,8 @@ export default {
     return {
       catchUp: false,
       tableIndex: -1,
-      cruuentIndex: 0
+      cruuentIndex: 0,
+      cityIndex: 0
     };
   },
   async created() {
@@ -188,6 +192,38 @@ export default {
               color #7fc6fe
             }
           }
+        }
+      }
+    }
+    .content-two {
+      display none
+      min-height 200px
+      &.active {
+        display block
+      }
+      .slide-menu {
+        width 30%
+        float left
+        .item {
+          height 40px
+          line-height 40px
+          text-align center
+          &.active {
+            color #69cafd
+            background #f5f5f5
+          }
+        }
+          
+      }
+      .areaList {
+        float left
+        background #f5f5f5
+        padding-left 30px
+        box-sizing border-box
+        width 70%
+        .area {
+          height 40px
+          line-height 40px
         }
       }
     }
