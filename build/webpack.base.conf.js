@@ -106,7 +106,8 @@ module.exports = {
     new MpvuePlugin(),
     new CopyWebpackPlugin([{
       from: '**/*.json',
-      to: ''
+      to: '',
+      ignore: ['enum.json']
     }], {
       context: 'src/'
     }),

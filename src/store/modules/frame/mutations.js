@@ -1,8 +1,8 @@
 import * as types from './mutation-types'
 
 const mutations = {
-    [types.SET_GOODSINFO](state, goodsInfo) {
-        state.goodsInfo = goodsInfo
+    [types.SET_DICT](state, dict) {
+        state.dict = dict
     }
 }
 

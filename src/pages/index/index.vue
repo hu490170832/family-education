@@ -2,7 +2,7 @@
   <div class="home">
     <search-bar />
     <Banner />
-    <Filter />
+    <Filter @filterList='filterList' />
     <teacher-list :teacherList='teacherList' />
   </div>
 </template>
@@ -26,6 +26,11 @@ export default {
     async _getTeacherList() {
       const res = await getTeacherList()
       this.teacherList = res.data
+    },
+    async filterList(data) {
+      const res = await getTeacherList(data)
+      
+      console.log(data)
     }
   },
   components: {

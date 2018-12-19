@@ -20,53 +20,100 @@
     <div class="tab-content" @touchmove.stop>
       <div class="content-item content-one" :class="{show: tableIndex==0}">
         <div class="list">
-          <div class="item" @click="itemClick(0)" :class="{active: cruuentIndex==0}">
-            <span class="txt">全部</span>
-            <span class="icon iconfont icon-gou"></span>
-          </div>
-          <div class="item" @click="itemClick(1)" :class="{active: cruuentIndex==1}"> 
-            <span class="txt">时薪由高到低</span>
-            <span class="icon iconfont icon-gou"></span>
-          </div>
-          <div class="item" @click="itemClick(2)" :class="{active: cruuentIndex==2}">
-            <span class="txt">时薪由低到高</span>
+          <div class="item" v-for="(item,index) in moneySortList" :key="item.value" @click="moneySort(index,item.value)" :class="{active: cruuentIndex==index}">
+            <span class="txt">{{item.text}}</span>
             <span class="icon iconfont icon-gou"></span>
           </div>
         </div>
       </div>
       <div class="content-item content-two" :class="{show: tableIndex==1}">
-        <div class="slide-menu">
-          <div class="item" :class="{active: cityIndex==0}">深圳市</div>
-          <div class="item" :class="{active: cityIndex==1}">广州市</div>
-        </div>
-        <div class="areaList">
-          <div class="area">南山区</div>
-          <div class="area">南山区</div>
-          <div class="area">南山区</div>
-          <div class="area">南山区</div>
-          <div class="area">南山区</div>
-          <div class="area">南山区</div>
-        </div>
+        <scroll-view scroll-y class="cityList">
+          <div class="item" v-for="(item,index) in cityList" :key="index" @click="cityChange(index)" :class="{active: cityIndex==index}">{{item.name}}</div>
+        </scroll-view>
+        <scroll-view scroll-y class="areaList">
+          <div class="area" v-for="(item,index) in areaList" :key="index">{{item.name}}</div>
+        </scroll-view>
       </div>
       <div class="content-item content-three" :class="{show: tableIndex==2}">
-        
+        <div class="sex">
+          <div class="title">老师性别</div>
+          <div class="list">
+            <span class="item active">不限</span>
+            <span class="item">男</span>
+            <span class="item">女</span>
+          </div>
+        </div>
+        <div class="grade">
+          <div class="title">授课年级</div>
+          <div class="list">
+            <span class="item">学前</span>
+            <span class="item">小学</span>
+            <span class="item">初中</span>
+            <span class="item">高中</span>
+            <span class="item">大学</span>
+            <span class="item">成人</span>
+          </div>          
+        </div>
+        <div class="subject">
+          <div class="title">授课科目</div>
+          <div class="list">
+            <span class="item">语文</span>
+            <span class="item">数学</span>
+            <span class="item">英语</span>
+            <span class="item">物理</span>
+            <span class="item">化学</span>
+            <span class="item">生物</span>
+            <span class="item">地理</span>
+            <span class="item">奥数</span>
+            <span class="item">文综</span>
+            <span class="item">钢琴</span>
+          </div>
+        </div>
+        <div class="bottom">
+          <span class="btn reset">重置</span>
+          <span class="btn confirm">确定</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { throttle } from "@/utils";
+import { throttle } from "@/utils"
+import { moneySortList } from '@/common/enum'
+import { mapState } from 'vuex'
+import { setTimeout } from 'timers';
 export default {
   data() {
     return {
       catchUp: false,
       tableIndex: -1,
       cruuentIndex: 0,
-      cityIndex: 0
+      cityIndex: 0,
+      activeAreaList: []
     };
   },
+  computed: {
+    ...mapState('frame',['dict']),
+    moneySortList() {
+      const dictItem = this.dict.find(v=>v.hasOwnProperty('moneySortList'))
+      const ret = dictItem && dictItem.moneySortList
+      return ret || []
+    },
+    cityList() {
+      const dictItem = this.dict.find(v=>v.hasOwnProperty('cityList'))
+      const ret = dictItem && dictItem.cityList
+      return ret || []
+    },
+    areaList() {
+      if(this.activeAreaList.length) {
+        return this.activeAreaList
+      }
+      return this.cityList[0] ? this.cityList[0].areaList : []
+    }
+  },
   async created() {
+    this.moneySortList = moneySortList.toArray()
     this.fillterOffsetTop = await this._getFilterTop()
   },
   methods: {
@@ -87,8 +134,13 @@ export default {
         this.tableIndex = index
       }
     },
-    itemClick(index) {
+    cityChange(index) {
+      this.cityIndex = index
+      this.activeAreaList = this.cityList[index].areaList
+    },
+    moneySort(index,value) {
       this.cruuentIndex = index
+      this.$emit('filterList',{moneySortType: value})
     },
     _getFilterTop() {
       return new Promise((resolve,reject)=>{
@@ -197,13 +249,14 @@ export default {
     }
     .content-two {
       display none
-      min-height 200px
       &.active {
         display block
       }
-      .slide-menu {
+      .cityList {
         width 30%
         float left
+        height 300px
+        overflow-y scroll
         .item {
           height 40px
           line-height 40px
@@ -216,7 +269,9 @@ export default {
           
       }
       .areaList {
+        height 300px
         float left
+        overflow-y scroll
         background #f5f5f5
         padding-left 30px
         box-sizing border-box
@@ -224,6 +279,63 @@ export default {
         .area {
           height 40px
           line-height 40px
+        }
+      }
+    }
+    .content-three {
+      padding-top 15px
+      .sex,.grade,.subject {
+        margin-bottom 15px
+        padding-left 15px
+        .title {
+          color #6b6b6b
+          margin-bottom 14px
+        }
+        .list {
+          display flex
+          flex-wrap wrap
+        }
+        .item {
+          width 74px
+          height 25px
+          margin-right 15px
+          margin-bottom 15px
+          line-height 25px
+          text-align center  
+          border 1px solid #81c7f9
+          border-radius 2px
+          color #81c7f9
+          &:nth-of-type(4n) {
+            margin-right 0
+          }
+          &.active {
+            color #ffffff
+            background #81c7f9
+          }
+        }
+      }
+      .bottom {
+        display flex
+        justify-content space-between
+        height 60px
+        background #f5f5f5
+        padding 15px
+        box-sizing border-box
+        .btn {
+          width 60px
+          height 32px
+          border-radius 2px 
+          text-align center
+          line-height 32px
+        }
+        .reset {
+          color #6b6b6b
+          background #fff
+          border 1px solid #e7e7e7
+        }
+        .confirm {
+          color #fff
+          background #4b9ad0
         }
       }
     }

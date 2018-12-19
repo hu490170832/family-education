@@ -1,5 +1,5 @@
 const state = {
-    goodsInfo: {}, //商品信息
+    dict: [], //字典
     
 }
 
