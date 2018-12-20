@@ -3,6 +3,8 @@ export function request(name, data) {
   wx.showLoading({
     title: '加载中',
   })
+  // data = dealObjectValue(data)
+  // console.log(data)
   return new Promise((resolve,reject)=>{
     wx.cloud.callFunction({
         name,

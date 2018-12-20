@@ -16,20 +16,16 @@ import { getTeacherList } from './services'
 const defaultState = {
   param: {
     page: 0,
-    pageSize: 5
-  },
-  hasData: true
+    pageSize: 10
+  }
 }
 export default {
   data() {
     return {
       teacherList: [],
-      param: {
-        page: 0,
-        pageSize: 5
-      },
+      lockScroll: false,
       hasData: true,
-      lockScroll: false
+      ...defaultState
     }
   },
   created() {
@@ -44,8 +40,8 @@ export default {
       this.teacherList = res.data
     },
     async filterList(data) {
-      this.param = defaultState.param
-      this.hasData = defaultState.hasData
+      this.param = Object.assign(this.param,...defaultState.param)
+      this.hasData = true
       this.param = {...this.param,...data}
       const res = await getTeacherList({...this.param})
       this.teacherList = res.data

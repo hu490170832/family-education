@@ -3,12 +3,12 @@
     <div class="cover" @touchmove.stop @click="coverClick" v-show="tableIndex!=-1"></div>
     <div class="filter-tab">
       <div class="tab-item" :class="{active: tableIndex==0}" @click="tabClick(0)">
-        <span class="txt">时薪高低</span>
+        <span class="txt">{{moneySortText || '时薪高低'}}</span>
         <span class="icon iconfont icon-xiajiantou"></span>
         <span class="line"></span>
       </div>
       <div class="tab-item" :class="{active: tableIndex==1}" @click="tabClick(1)">
-        <span class="txt">授课区域</span>
+        <span class="txt">{{areaSortText || '授课区域'}}</span>
         <span class="icon iconfont icon-xiajiantou"></span>
         <span class="line"></span>
       </div>
@@ -20,7 +20,7 @@
     <div class="tab-content" @click.stop >
         <div class="content-item content-one" :class="{show: tableIndex==0}">
           <div class="list">
-            <div class="item" v-for="(item,index) in moneySortList" :key="item.value" @click="moneySort(index,item.value)" :class="{active: cruuentIndex==index}">
+            <div class="item" v-for="(item,index) in moneySortList" :key="item.value" @click="moneySort(index,item)" :class="{active: cruuentIndex==index}">
               <span class="txt">{{item.text}}</span>
               <span class="icon iconfont icon-gou"></span>
             </div>
@@ -31,47 +31,31 @@
             <div class="item" v-for="(item,index) in cityList" :key="index" @click="cityChange(index)" :class="{active: cityIndex==index}">{{item.name}}</div>
           </scroll-view>
           <scroll-view scroll-y class="areaList">
-            <div class="area" v-for="(item,index) in areaList" :key="index">{{item.name}}</div>
+            <div class="area" :class="{active: areaIndex == index}" @click="areaClick(index,item)" v-for="(item,index) in areaList" :key="index">{{item.name}}</div>
           </scroll-view>
         </div>
         <div class="content-item content-three" :class="{show: tableIndex==2}">
           <div class="sex">
             <div class="title">老师性别</div>
             <div class="list">
-              <span class="item active">不限</span>
-              <span class="item">男</span>
-              <span class="item">女</span>
+              <span @click="sexChange(index)" v-for="(item,index) in sexList" :key="index" class="item" :class="{active: sexIndex==index}">{{item.text}}</span>
             </div>
           </div>
           <div class="grade">
             <div class="title">授课年级</div>
             <div class="list">
-              <span class="item">学前</span>
-              <span class="item">小学</span>
-              <span class="item">初中</span>
-              <span class="item">高中</span>
-              <span class="item">大学</span>
-              <span class="item">成人</span>
+              <span @click="gradeChange(index)" v-for="(item,index) in gradeList" :key="index" class="item" :class="{active: gradeIndex==index}">{{item.text}}</span>
             </div>
           </div>
           <div class="subject">
             <div class="title">授课科目</div>
             <div class="list">
-              <span class="item">语文</span>
-              <span class="item">数学</span>
-              <span class="item">英语</span>
-              <span class="item">物理</span>
-              <span class="item">化学</span>
-              <span class="item">生物</span>
-              <span class="item">地理</span>
-              <span class="item">奥数</span>
-              <span class="item">文综</span>
-              <span class="item">钢琴</span>
+              <span @click="subjectChange(index)" v-for="(item,index) in subjectList" :key="index" class="item" :class="{active: item.checked}">{{item.text}}</span>
             </div>
           </div>
           <div class="bottom">
-            <span class="btn reset">重置</span>
-            <span class="btn confirm">确定</span>
+            <span @click="reset" class="btn reset">重置</span>
+            <span @click="confirm" class="btn confirm">确定</span>
           </div>
         </div>
       </div>
@@ -91,6 +75,7 @@
   import {
     setTimeout
   } from 'timers';
+  import { sexList, gradeList, subjectList } from '@/common/enum'
   export default {
     data() {
       return {
@@ -98,7 +83,15 @@
         tableIndex: -1,
         cruuentIndex: 0,
         cityIndex: 0,
-        activeAreaList: []
+        areaIndex: -1,
+        sexIndex: 0,
+        gradeIndex: -1,
+        activeAreaList: [],
+        sexList: [],
+        gradeList: [],
+        subjectList: [],
+        moneySortText: '',
+        areaSortText: ''
       };
     },
     computed: {
@@ -119,6 +112,14 @@
         }
         return this.cityList[0] ? this.cityList[0].areaList : []
       }
+    },
+    created() {
+      this.sexList = sexList.toArray()
+      this.subjectList = subjectList.toArray().map(v=>{
+        v.checked = false
+        return v
+      })
+      this.gradeList = gradeList.toArray()
     },
     async mounted() {
       this.moneySortList = moneySortList.toArray()
@@ -146,13 +147,52 @@
         this.cityIndex = index
         this.activeAreaList = this.cityList[index].areaList
       },
-      moneySort(index, value) {
+      areaClick(index,item) {
+        const { name } = item
+        this.areaIndex = index
+        this.areaSortText = name
+        this.$emit('filterList',{area: name})
+        this.tableIndex = -1
+      },
+      moneySort(index, item) {
+        const { text,value } = item
         if (index !== this.cruuentIndex) {
           this.cruuentIndex = index
           this.$emit('filterList', {
             moneySortType: value
           })
+          this.moneySortText = text
         }
+        this.tableIndex = -1
+      },
+      sexChange(index) {
+        this.sexIndex = index
+      },
+      gradeChange(index) {
+        if(this.gradeIndex == index) {
+          this.gradeIndex = -1
+          return
+        }
+        this.gradeIndex = index
+      },
+      subjectChange(index) {
+        const checked = this.subjectList[index].checked
+        this.$set(this.subjectList[index],'checked',!checked)
+      },
+      reset() {
+        this.sexIndex = 0,
+        this.gradeIndex = -1
+        this.subjectList = this.subjectList.map(v=>{
+          v.checked = false
+          return v
+        })
+      },
+      confirm() {
+        let sex = this.sexList[this.sexIndex] && this.sexList[this.sexIndex].text
+        const targetGrade = this.gradeList[this.gradeIndex] && this.gradeList[this.gradeIndex].text
+        const tragetSubjectList = this.subjectList.filter(v=>v.checked).map(v=>v.text)
+        sex = sex=='不限' ? '' : sex
+        this.$emit('filterList',{sex,targetGrade,tragetSubjectList})
         this.tableIndex = -1
       },
       _getFilterTop() {
@@ -161,7 +201,6 @@
           query.select('#filter').boundingClientRect()
           query.selectViewport().scrollOffset()
           query.exec(res => {
-            console.log(res)
             resolve(res[0].top)
           })
         })
@@ -298,6 +337,9 @@
         .area {
           height 40px
           line-height 40px
+          &.active {
+            color #69cafd
+          }
         }
       }
     }
