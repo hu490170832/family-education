@@ -6,6 +6,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const { moneySortType,page,pageSize,area,sex,targetGrade,tragetSubjectList } = event
   const param = dealObjectValue({area,sex,targetGrade})
+  console.log(param,page,pageSize,moneySortType)
   if(moneySortType == 2) {
     return await  db.collection('teachers').where(param).orderBy('min_wage','desc').skip(pageSize*page).limit(pageSize).get()
   }else if(moneySortType == 3) {

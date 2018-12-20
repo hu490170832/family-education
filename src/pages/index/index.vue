@@ -40,7 +40,7 @@ export default {
       this.teacherList = res.data
     },
     async filterList(data) {
-      this.param = Object.assign(this.param,...defaultState.param)
+      this.param.page = 0
       this.hasData = true
       this.param = {...this.param,...data}
       const res = await getTeacherList({...this.param})
