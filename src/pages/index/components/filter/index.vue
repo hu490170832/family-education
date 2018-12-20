@@ -1,6 +1,6 @@
 <template>
-  <div id="filter" class="filter">
-    <div class="cover" @click="coverClick" @touchmove.stop v-show="tableIndex!=-1"></div>
+  <div id="filter" class="filter" :class="{lockScroll: tableIndex==0 || tableIndex==1 || tableIndex == 2}">
+    <div class="cover" @touchmove.stop @click="coverClick" v-show="tableIndex!=-1"></div>
     <div class="filter-tab">
       <div class="tab-item" :class="{active: tableIndex==0}" @click="tabClick(0)">
         <span class="txt">时薪高低</span>
@@ -17,143 +17,157 @@
         <span class="icon iconfont icon-xiajiantou"></span>
       </div>
     </div>
-    <div class="tab-content" @touchmove.stop>
-      <div class="content-item content-one" :class="{show: tableIndex==0}">
-        <div class="list">
-          <div class="item" v-for="(item,index) in moneySortList" :key="item.value" @click="moneySort(index,item.value)" :class="{active: cruuentIndex==index}">
-            <span class="txt">{{item.text}}</span>
-            <span class="icon iconfont icon-gou"></span>
+    <div class="tab-content" @click.stop >
+        <div class="content-item content-one" :class="{show: tableIndex==0}">
+          <div class="list">
+            <div class="item" v-for="(item,index) in moneySortList" :key="item.value" @click="moneySort(index,item.value)" :class="{active: cruuentIndex==index}">
+              <span class="txt">{{item.text}}</span>
+              <span class="icon iconfont icon-gou"></span>
+            </div>
+          </div>
+        </div>
+        <div class="content-item content-two" :class="{show: tableIndex==1}">
+          <scroll-view scroll-y class="cityList">
+            <div class="item" v-for="(item,index) in cityList" :key="index" @click="cityChange(index)" :class="{active: cityIndex==index}">{{item.name}}</div>
+          </scroll-view>
+          <scroll-view scroll-y class="areaList">
+            <div class="area" v-for="(item,index) in areaList" :key="index">{{item.name}}</div>
+          </scroll-view>
+        </div>
+        <div class="content-item content-three" :class="{show: tableIndex==2}">
+          <div class="sex">
+            <div class="title">老师性别</div>
+            <div class="list">
+              <span class="item active">不限</span>
+              <span class="item">男</span>
+              <span class="item">女</span>
+            </div>
+          </div>
+          <div class="grade">
+            <div class="title">授课年级</div>
+            <div class="list">
+              <span class="item">学前</span>
+              <span class="item">小学</span>
+              <span class="item">初中</span>
+              <span class="item">高中</span>
+              <span class="item">大学</span>
+              <span class="item">成人</span>
+            </div>
+          </div>
+          <div class="subject">
+            <div class="title">授课科目</div>
+            <div class="list">
+              <span class="item">语文</span>
+              <span class="item">数学</span>
+              <span class="item">英语</span>
+              <span class="item">物理</span>
+              <span class="item">化学</span>
+              <span class="item">生物</span>
+              <span class="item">地理</span>
+              <span class="item">奥数</span>
+              <span class="item">文综</span>
+              <span class="item">钢琴</span>
+            </div>
+          </div>
+          <div class="bottom">
+            <span class="btn reset">重置</span>
+            <span class="btn confirm">确定</span>
           </div>
         </div>
       </div>
-      <div class="content-item content-two" :class="{show: tableIndex==1}">
-        <scroll-view scroll-y class="cityList">
-          <div class="item" v-for="(item,index) in cityList" :key="index" @click="cityChange(index)" :class="{active: cityIndex==index}">{{item.name}}</div>
-        </scroll-view>
-        <scroll-view scroll-y class="areaList">
-          <div class="area" v-for="(item,index) in areaList" :key="index">{{item.name}}</div>
-        </scroll-view>
-      </div>
-      <div class="content-item content-three" :class="{show: tableIndex==2}">
-        <div class="sex">
-          <div class="title">老师性别</div>
-          <div class="list">
-            <span class="item active">不限</span>
-            <span class="item">男</span>
-            <span class="item">女</span>
-          </div>
-        </div>
-        <div class="grade">
-          <div class="title">授课年级</div>
-          <div class="list">
-            <span class="item">学前</span>
-            <span class="item">小学</span>
-            <span class="item">初中</span>
-            <span class="item">高中</span>
-            <span class="item">大学</span>
-            <span class="item">成人</span>
-          </div>          
-        </div>
-        <div class="subject">
-          <div class="title">授课科目</div>
-          <div class="list">
-            <span class="item">语文</span>
-            <span class="item">数学</span>
-            <span class="item">英语</span>
-            <span class="item">物理</span>
-            <span class="item">化学</span>
-            <span class="item">生物</span>
-            <span class="item">地理</span>
-            <span class="item">奥数</span>
-            <span class="item">文综</span>
-            <span class="item">钢琴</span>
-          </div>
-        </div>
-        <div class="bottom">
-          <span class="btn reset">重置</span>
-          <span class="btn confirm">确定</span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { throttle } from "@/utils"
-import { moneySortList } from '@/common/enum'
-import { mapState } from 'vuex'
-import { setTimeout } from 'timers';
-export default {
-  data() {
-    return {
-      catchUp: false,
-      tableIndex: -1,
-      cruuentIndex: 0,
-      cityIndex: 0,
-      activeAreaList: []
-    };
-  },
-  computed: {
-    ...mapState('frame',['dict']),
-    moneySortList() {
-      const dictItem = this.dict.find(v=>v.hasOwnProperty('moneySortList'))
-      const ret = dictItem && dictItem.moneySortList
-      return ret || []
+  import {
+    throttle
+  } from "@/utils"
+  import {
+    moneySortList
+  } from '@/common/enum'
+  import {
+    mapState
+  } from 'vuex'
+  import {
+    setTimeout
+  } from 'timers';
+  export default {
+    data() {
+      return {
+        catchUp: false,
+        tableIndex: -1,
+        cruuentIndex: 0,
+        cityIndex: 0,
+        activeAreaList: []
+      };
     },
-    cityList() {
-      const dictItem = this.dict.find(v=>v.hasOwnProperty('cityList'))
-      const ret = dictItem && dictItem.cityList
-      return ret || []
-    },
-    areaList() {
-      if(this.activeAreaList.length) {
-        return this.activeAreaList
+    computed: {
+      ...mapState('frame', ['dict']),
+      moneySortList() {
+        const dictItem = this.dict.find(v => v.hasOwnProperty('moneySortList'))
+        const ret = dictItem && dictItem.moneySortList
+        return ret || []
+      },
+      cityList() {
+        const dictItem = this.dict.find(v => v.hasOwnProperty('cityList'))
+        const ret = dictItem && dictItem.cityList
+        return ret || []
+      },
+      areaList() {
+        if (this.activeAreaList.length) {
+          return this.activeAreaList
+        }
+        return this.cityList[0] ? this.cityList[0].areaList : []
       }
-      return this.cityList[0] ? this.cityList[0].areaList : []
-    }
-  },
-  async created() {
-    this.moneySortList = moneySortList.toArray()
-    this.fillterOffsetTop = await this._getFilterTop()
-  },
-  methods: {
-    coverClick() {
-      this.tableIndex = -1
     },
-    async tabClick(index) {
-      if(index == this.tableIndex) {
+    async mounted() {
+      this.moneySortList = moneySortList.toArray()
+      this.fillterOffsetTop = await this._getFilterTop()
+    },
+    methods: {
+      coverClick() {
         this.tableIndex = -1
-      }else {
-        const filterTop = await this._getFilterTop()
-        if(filterTop!=0) {
-          wx.pageScrollTo({
-            scrollTop: this.fillterOffsetTop,
-            duration: 0
+      },
+      async tabClick(index) {
+        if (index == this.tableIndex) {
+          this.tableIndex = -1
+        } else {
+          const filterTop = await this._getFilterTop()
+          if (filterTop != 0) {
+            wx.pageScrollTo({
+              scrollTop: this.fillterOffsetTop,
+              duration: 0
+            })
+          }
+          this.tableIndex = index
+        }
+      },
+      cityChange(index) {
+        this.cityIndex = index
+        this.activeAreaList = this.cityList[index].areaList
+      },
+      moneySort(index, value) {
+        if (index !== this.cruuentIndex) {
+          this.cruuentIndex = index
+          this.$emit('filterList', {
+            moneySortType: value
           })
         }
-        this.tableIndex = index
-      }
-    },
-    cityChange(index) {
-      this.cityIndex = index
-      this.activeAreaList = this.cityList[index].areaList
-    },
-    moneySort(index,value) {
-      this.cruuentIndex = index
-      this.$emit('filterList',{moneySortType: value})
-    },
-    _getFilterTop() {
-      return new Promise((resolve,reject)=>{
-        const query = wx.createSelectorQuery()
-        query.select('#filter').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(res=> {
-          resolve(res[0].top)
+        this.tableIndex = -1
+      },
+      _getFilterTop() {
+        return new Promise((resolve, reject) => {
+          const query = wx.createSelectorQuery()
+          query.select('#filter').boundingClientRect()
+          query.selectViewport().scrollOffset()
+          query.exec(res => {
+            console.log(res)
+            resolve(res[0].top)
+          })
         })
-      })
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang='stylus' scoped>
@@ -161,6 +175,11 @@ export default {
   position: sticky;
   top: 0;
   background #fff
+  &.lockScroll {
+    position fixed
+    width 100%
+    z-index 99
+  }
   .cover {
     position fixed
     left 0

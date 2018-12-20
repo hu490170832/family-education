@@ -1,16 +1,21 @@
 <template>
   <div class="teacherList">
-    <Teacher v-for="item in teacherList" :key="item.id" :data='item' />
+    <Teacher v-for="(item,index) in teacherList" :key="index" :data='item' />
   </div>
 </template>
 
 <script>
   import Teacher from '../teacher'
   export default {
-    props:['teacherList'],
+    props: {
+      teacherList:{
+        type: Array,
+        default: []
+      }
+    },
     components: {
       Teacher
-    }
+    },
   }
 </script>
 

@@ -4,12 +4,12 @@ cloud.init()
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { moneySortType } = event
+  const { moneySortType,page,pageSize } = event
   if(moneySortType == 2) {
-    return db.collection('teachers').get().orderBy('min_wage','desc')
+    return await  db.collection('teachers').orderBy('min_wage','desc').skip(pageSize*page).limit(5).get()
   }else if(moneySortType == 3) {
-    return db.collection('teachers').get().orderBy('min_wage','asc')
+    return await  db.collection('teachers').orderBy('min_wage','asc').skip(pageSize*page).limit(5).get()
   }else {
-    return db.collection('teachers').get()
+    return await  db.collection('teachers').skip(pageSize*page).limit(5).get()
   }
 }

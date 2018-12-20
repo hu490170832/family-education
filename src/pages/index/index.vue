@@ -13,24 +13,51 @@ import Banner from './components/banner'
 import Filter from './components/filter'
 import TeacherList from './components/teacherList'
 import { getTeacherList } from './services'
+const defaultState = {
+  param: {
+    page: 0,
+    pageSize: 5
+  },
+  hasData: true
+}
 export default {
   data() {
     return {
-      teacherList: []
+      teacherList: [],
+      param: {
+        page: 0,
+        pageSize: 5
+      },
+      hasData: true,
+      lockScroll: false
     }
   },
   created() {
     this._getTeacherList()
   },
+  onReachBottom() {
+    this.hasData && this.loadMore()
+  },
   methods: {
     async _getTeacherList() {
-      const res = await getTeacherList()
+      const res = await getTeacherList(this.param)
       this.teacherList = res.data
     },
     async filterList(data) {
-      const res = await getTeacherList(data)
-      
-      console.log(data)
+      this.param = defaultState.param
+      this.hasData = defaultState.hasData
+      this.param = {...this.param,...data}
+      const res = await getTeacherList({...this.param})
+      this.teacherList = res.data
+    },
+    async loadMore() {
+      this.param.page++
+      const res = await getTeacherList({...this.param})
+      if(res.data.length) {
+        this.teacherList = this.teacherList.concat(res.data)
+      }else {
+        this.hasData = false
+      }
     }
   },
   components: {
