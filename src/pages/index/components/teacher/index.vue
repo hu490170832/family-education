@@ -1,5 +1,5 @@
 <template>
-  <div class="teacher">
+  <div @click="goDetail(data._id)" class="teacher">
     <div class="title">
       <img mode='widthFix' class="title-img" src="./jiangpai.png">
       <span class="name">{{data.name}}</span>
@@ -23,14 +23,20 @@
           <span v-for="(item,index) in data.teach_feature" :key="index" class="feature">{{item}}</span>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['data']
+    props: ['data'],
+    methods: {
+      goDetail(id) {
+        wx.navigateTo({
+          url: `/pages/detail/main?id=${id}`
+        })
+      }
+    }
   }
 </script>
 

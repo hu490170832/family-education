@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/detail/main",
     "pages/index/main"
+    
   ],
   "cloud": true,
   "window": {
