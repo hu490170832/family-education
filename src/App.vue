@@ -22,7 +22,7 @@ export default {
         traceUser: true,
       })
     }
-  }
+  },
 }
 </script>
 
