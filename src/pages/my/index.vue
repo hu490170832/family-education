@@ -15,10 +15,10 @@
         <span class="txt">我的收藏</span>
         <span class="icon iconfont icon-youjiantou"></span>
       </div>
-      <div class="my-lesson item">
+      <button open-type='contact' @click="contactClick" class="contact item">
         <span class="txt">联系客服</span>
         <span class="icon iconfont icon-youjiantou"></span>
-      </div>
+      </button>
     </div>
   </div>
 </template>
@@ -39,6 +39,10 @@
       wx.setNavigationBarTitle({
         title: '我的'
       })
+    },
+    methods: {
+      contactClick() {
+      }
     }
   }
 </script>
@@ -69,4 +73,14 @@
         padding-right 20px
         height 40px
         border-bottom 1px solid #e7e7e7
+        position relative
+        &.contact
+          padding-left 0px
+          font-size 14px
+          color #333
+          background #fff
+          border-radius 0
+          &::after {
+            border: 0;
+          } 
 </style>
