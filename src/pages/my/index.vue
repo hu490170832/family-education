@@ -11,11 +11,11 @@
         <span class="txt">我的课程</span>
         <span class="icon iconfont icon-youjiantou"></span>
       </div>
-      <div class="my-lesson item">
+      <div @click="goCollect" class="my-lesson item">
         <span class="txt">我的收藏</span>
         <span class="icon iconfont icon-youjiantou"></span>
       </div>
-      <button open-type='contact' @click="contactClick" class="contact item">
+      <button open-type='contact' class="contact item">
         <span class="txt">联系客服</span>
         <span class="icon iconfont icon-youjiantou"></span>
       </button>
@@ -24,7 +24,10 @@
 </template>
 
 <script>
+  import { setTitleMixin } from '@/common/mixin'
   export default {
+    name: '我的',
+    mixins: [setTitleMixin],
     onShareAppMessage(res) {
       if (res.from === 'button') {
         // 来自页面内转发按钮
@@ -35,13 +38,11 @@
         path: '/pages/index/main'
       }
     },
-    mounted() {
-      wx.setNavigationBarTitle({
-        title: '我的'
-      })
-    },
     methods: {
-      contactClick() {
+      goCollect() {
+        wx.navigateTo({
+          url: '/pages/collect/main'
+        })
       }
     }
   }

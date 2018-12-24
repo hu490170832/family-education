@@ -14,6 +14,6 @@ export default new Vuex.Store({
       ...frame
     }
   },
-  strict: debug,
-  plugins: debug ? [createLogger()] : []   
+  // strict: debug,
+  // plugins: debug ? [createLogger()] : []   
 })

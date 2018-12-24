@@ -1,8 +1,9 @@
 {
   "pages": [
-    "pages/my/main",
     "pages/index/main",
-    "pages/detail/main"
+    "pages/my/main",
+    "pages/detail/main",
+    "pages/collect/main"
   ],
   "cloud": true,
   "window": {

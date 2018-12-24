@@ -31,6 +31,7 @@ export default {
 page {
   color: #333; 
   font-size: 14px;
+  height: 100%;
 }
 
 </style>

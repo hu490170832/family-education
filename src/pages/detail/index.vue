@@ -79,11 +79,11 @@
       </div>
     </div>
     <div class="bottom">
-      <div class="service">
+      <button open-type='contact' class="service">
         <div class="icon iconfont icon-kefu"></div>
         <div class="text">客服</div>
-      </div>
-      <div class="collect">
+      </button>
+      <div class="collect" :class="{active: collectStatu}" @click="collect()">
         <div class="icon iconfont icon-shoucang"></div>
         <div class="text">收藏</div>
       </div>
@@ -100,9 +100,13 @@
 <script>
   import Banner from '../index/components/banner'
   import { getDetail } from './services'
+  import { setTitleMixin } from '@/common/mixin'
   export default {
+    mixins: [setTitleMixin],
+    name: '老师详情',
     data() {
       return {
+        collectStatu: false,
         dataInfo: {}
       }
     },
@@ -127,15 +131,47 @@
     },
     mounted() {
       this._getDetail()
-      wx.setNavigationBarTitle({
-        title: '老师信息'
-      })
     },
     methods: {
       async _getDetail() {
         const res = await getDetail({_id: this.id})
         this.dataInfo = res.data[0]
-        console.log(this.dataInfo)
+        this.isCollect()
+      },
+      isCollect() {
+        let collectList = wx.getStorageSync('collectList')
+        collectList = collectList ? JSON.parse(collectList) : []
+        const index = collectList.findIndex(v=> v._id == this.dataInfo._id)
+        if(index!=-1) {
+          this.collectStatu = true
+        }else {
+          this.collectStatu = false
+        }
+      },
+      collect() {
+        let collectList = wx.getStorageSync('collectList')
+        collectList = collectList ? JSON.parse(collectList) : []
+        const index = collectList.findIndex(v=>v._id==this.dataInfo._id)
+        if(index!=-1) {
+          collectList.splice(index,1)
+        }else {
+          collectList.push(this.dataInfo)
+        }
+        wx.setStorageSync('collectList',JSON.stringify(collectList))
+        this.collectStatu = !this.collectStatu
+        if(!this.collectStatu) {
+          wx.showToast({
+            title: '取消收藏',
+            icon: 'success',
+            duration: 2000
+          })
+        }else {
+          wx.showToast({
+            title: '收藏成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
       }
     },
     components: {
@@ -254,6 +290,12 @@
         flex-direction column
         align-items center
         justify-content center
+        background #fff
+        font-size 14px
+        padding 0
+        line-height 1.2
+        &::after
+          border 0
         .icon
           color #81c7f9
       .collect
@@ -264,6 +306,10 @@
         flex-direction column
         align-items center
         justify-content center
+        &.active 
+          color #f8de71
+          .icon
+            color #f8de71
         .icon
           color #dadada
       .subscribe
