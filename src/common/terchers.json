@@ -20,7 +20,7 @@
   "teach_grade": [
     "高中"
   ],
-  "teach_review": null,
+  "teach_review": "循循善诱",
   "teach_feature": [
     "备课充分",
     "有针对性",
@@ -29,13 +29,13 @@
   "identity_auth": 1,
   "diploma_auth": 1,
   "teacher_auth": -1,
-  "grade": "大二",
   "region": [
     "广东省",
     "东莞市",
     "虎门镇"
   ],
   "school": "北京师范大学珠海分校",
+  "grade": "大二",
   "major": "数学与应用数学 金融学",
   "icon": "cloud://family-education-01b01a.6661-family-education-01b01a/xjpic.jpg",
   "video": null,

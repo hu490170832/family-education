@@ -11,10 +11,10 @@
         </div>
         <div class="teachList">
           <div class="subject">授课科目: {{subject}} </div>
-          <div class="area">授课区域: {{dataInfo.area}} </div>
-          <div class="grade" v-show="dataInfo.grade">授课年级: {{dataInfo.grade}} </div>
-          <div class="jinyan">教育心得: 循循善诱 </div>
-          <div class="time">上课时间: 周末 </div>
+          <div class="area">授课区域: {{teach_county}} </div>
+          <div class="grade" v-show="dataInfo.grade">授课年级: {{teach_grade}} </div>
+          <div class="jinyan">教育心得: {{dataInfo.teach_review || "无"}} </div>
+          <div class="time">上课时间: {{dataInfo.teach_time || "无"}} </div>
           <div class="status">空闲</div>
         </div>
       </div>
@@ -38,19 +38,17 @@
             <div class="text">基本信息</div>
           </div>
           <div class="content-info">
-            <div class="grade">所在年级: 大二</div>
-            <div class="native-place">籍贯所在: 广东省,东莞市，虎门镇</div>
-            <div class="school">所在学校: 深圳大学</div>
-            <div class="major">所学专业: 数学与应用数学 金融学</div>
+            <div class="grade">所在年级: {{dataInfo.grade}}</div>
+            <div class="native-place">籍贯所在: {{region}}</div>
+            <div class="school">所在学校: {{dataInfo.school}}</div>
+            <div class="major">所学专业: {{dataInfo.major}}</div>
           </div>
         </div>
         <div class="info-two info">
           <div class="title">
             <div class="text">教学特点</div>
             <div class="specialty">
-              <span class="item">备课充分</span>
-              <span class="item">有针对性</span>
-              <span class="item">有效果</span>
+              <span class="item" :key="index" v-for="(item,index) in dataInfo.teach_feature">{{item}}</span>
             </div>
           </div>
         </div>
@@ -58,22 +56,13 @@
           <div class="title">
             <div class="text">教学经历</div>
           </div>
-          <div class="content-info">
+          <div class="content-info" :key="index" v-for="(item,index) in dataInfo.teach_exprience">
             <div class="experience">
-              <div class="time">2017-07-2017-08</div>
+              <div class="time">{{item.start_time}}-{{item.stop_time}}</div>
               <div class="experience-text">
-                辅导过初一升初二的数学，该学生原本比较薄弱没，不及格，后期通过慢慢巩固知识，使其在开学时能跟得上老师上课节奏，深得其家长好评。
+                {{item.description}}
               </div>
             </div>
-          </div>
-        </div>
-        <div class="introduce info">
-          <div class="title">
-            <div class="text">个人介绍</div>
-          </div>
-          <div class="content-info">
-            本科及硕士均毕业于QS世界大学排名前10的UCL伦敦大学学院。有接近五年的英国留学与生活经历，熟悉欧美教育体系以及标准化考试。
-            IELTS雅思考试总分8分，听力满分，阅读接近满分。
           </div>
         </div>
       </div>
@@ -114,6 +103,15 @@
       subject() {
         return this.dataInfo.teach_subject && this.dataInfo.teach_subject.join('/')
       },
+      teach_grade() {
+        return this.dataInfo.teach_grade && this.dataInfo.teach_grade.join('/')
+      },
+      teach_county() {
+        return this.dataInfo.teach_county && this.dataInfo.teach_county.join('/')
+      },
+      region() {
+        return this.dataInfo.region && this.dataInfo.region.join(',')
+      }
     },
     onLoad(options) {
       this.id = options.id
@@ -136,6 +134,7 @@
       async _getDetail() {
         const res = await getDetail({_id: this.id})
         this.dataInfo = res.data[0]
+        console.log(this.dataInfo)
         this.isCollect()
       },
       isCollect() {
