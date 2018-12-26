@@ -107,7 +107,7 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: '**/*.json',
       to: '',
-      ignore: ['enum.json','dict.json']
+      ignore: 'common/*.json'
     }], {
       context: 'src/'
     }),
