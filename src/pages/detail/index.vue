@@ -38,10 +38,10 @@
             <div class="text">基本信息</div>
           </div>
           <div class="content-info">
-            <div class="grade">所在年级: {{dataInfo.grade}}</div>
-            <div class="native-place">籍贯所在: {{region}}</div>
-            <div class="school">所在学校: {{dataInfo.school}}</div>
-            <div class="major">所学专业: {{dataInfo.major}}</div>
+            <div class="grade">所在年级: 2017届毕业生</div>
+            <div class="native-place">籍贯所在: 内蒙古，鄂尔多斯市，东胜区</div>
+            <div class="school">毕业院校: 深圳大北京师范大学珠海分校学</div>
+            <div class="major">所学专业: 电气工程及其自动化</div>
           </div>
         </div>
         <div class="info-two info">
@@ -63,6 +63,14 @@
                 {{item.description}}
               </div>
             </div>
+          </div>
+        </div>
+        <div class="introduce info">
+          <div class="title">
+            <div class="text">个人介绍</div>
+          </div>
+          <div class="content-info">
+            获得英国纽卡斯尔大学、利物浦大学等三所世界百强名校预录取通知书，现工作于国家能源集团内蒙古东胜热电有限公司智慧电厂办公室，接触当前时代最前端云大物移智技术及产品。
           </div>
         </div>
       </div>
@@ -123,7 +131,7 @@
         console.log(res.target)
       }
       return {
-        title: '家教哈哈',
+        title: '优等生计划',
         path: '/pages/index/main'
       }
     },
