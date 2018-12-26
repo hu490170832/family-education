@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  const banner1 = require('@/assets/img/banner1.jpg')
+  const banner1 = require('@/assets/img/banner3.jpg')
   const banner2 = require('@/assets/img/banner2.jpg')
   export default {
     data() {
