@@ -28,6 +28,32 @@ export default {
 
 <style>
 @import "./assets/font/iconfont.css";
+@import "./assets/style/zanui.wxss";
+.container::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  content: ' ';
+  width: 100%;
+  height: 1rpx;
+  background-color: #e2e2e2;
+  z-index: 5;
+}
+.doc-title {
+  position: relative;
+  padding: 15px 0;
+  margin: 10px 15px;
+  line-height: 25px;
+  font-size: 25px;
+  color: #666;
+}
+.doc-description {
+  margin: 14px 0;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #666;
+}
 page {
   color: #333; 
   font-size: 14px;
