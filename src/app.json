@@ -5,6 +5,12 @@
     "pages/detail/main",
     "pages/collect/main"
   ],
+  "subPackages":[
+    {
+      "root": "packageA",
+      "pages": ["pages/admin/main"]  
+    }
+  ],
   "cloud": true,
   "window": {
     "backgroundTextStyle": "light",
