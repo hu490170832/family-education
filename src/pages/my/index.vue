@@ -19,6 +19,10 @@
         <span class="txt">联系客服</span>
         <span class="icon iconfont icon-youjiantou"></span>
       </button>
+      <div @click="goAdmin" class="my-lesson item">
+        <span class="txt">后台管理</span>
+        <span class="icon iconfont icon-youjiantou"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +46,11 @@
       goCollect() {
         wx.navigateTo({
           url: '/pages/collect/main'
+        })
+      },
+      goAdmin() {
+        wx.navigateTo({
+          url: '/packageA/pages/admin/main'
         })
       }
     }

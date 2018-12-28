@@ -39,13 +39,17 @@
 
 <script>
   import {extractComponentId} from '../../utils/helper'
+  const EVENT_INPUT = 'input'
+  const EVENT_CHANGE = 'change'
+  const EVENT_BLUR = 'blur'
+  const EVENT_FOCUS = 'focus'
   export default {
     props: {
       error: Boolean,
       mode: String,
       title: String,
       type: String,
-      focus: Boolean,
+      focus: {default: false,type:Boolean},
       name: String,
       componentId: String,
       value: String,
@@ -57,43 +61,14 @@
       handleZanFieldBlur: Function
     },
     methods: {
-      _handleZanFieldChange (event) {
-        const componentId = extractComponentId(event)
-        event.componentId = componentId
-
-        // console.info('[zan:field:change]', event)
-
-        if (this.handleZanFieldChange) {
-          return this.handleZanFieldChange(event)
-        }
-
-        console.warn('页面缺少 handleZanFieldChange 回调函数')
+      _handleZanFieldChange (e) {
+        this.$emit(EVENT_CHANGE,e)
       },
-
-      _handleZanFieldFocus (event) {
-        const componentId = extractComponentId(event)
-        event.componentId = componentId
-
-        console.info('[zan:field:focus]', event)
-
-        if (this.handleZanFieldFocus) {
-          return this.handleZanFieldFocus(event)
-        }
-
-        console.warn('页面缺少 handleZanFieldFocus 回调函数')
+      _handleZanFieldFocus (e) {
+        this.$emit(EVENT_FOCUS,e)
       },
-
-      _handleZanFieldBlur (event) {
-        const componentId = extractComponentId(event)
-        event.componentId = componentId
-
-        console.info('[zan:field:blur]', event)
-
-        if (this.handleZanFieldBlur) {
-          return this.handleZanFieldBlur(event)
-        }
-
-        console.warn('页面缺少 handleZanFieldBlur 回调函数')
+      _handleZanFieldBlur (e) {
+        this.$emit(EVENT_BLUR,e)
       }
     }
   }

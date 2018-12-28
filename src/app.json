@@ -1,16 +1,23 @@
 {
   "pages": [
-    "pages/index/main",
     "pages/my/main",
+    "pages/index/main",
     "pages/detail/main",
     "pages/collect/main"
   ],
   "subPackages":[
     {
+      "name": "admin",
       "root": "packageA",
-      "pages": ["pages/admin/main"]  
+      "pages": ["pages/admin/main","pages/teacherList/main","pages/addTeacher/main"]  
     }
   ],
+  "preloadRule": {
+    "pages/index/main": {
+      "network": "all",
+      "packages": ["admin"]
+    }
+  },
   "cloud": true,
   "window": {
     "backgroundTextStyle": "light",
