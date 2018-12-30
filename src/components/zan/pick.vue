@@ -10,8 +10,12 @@
   export default {
     props: {
       title: String,
-      placeholder: String,
-      onClick: Function
+      placeholder: String
+    },
+    methods: {
+      onClick() {
+        this.$emit('click')
+      }
     }
   }
 </script>
