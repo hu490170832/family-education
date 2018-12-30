@@ -1,5 +1,6 @@
 <template>
   <div class="zan-cell zan-cell--access" @click="onClick">
+    <span class="isrequire">*</span>
     <div class="zan-cell__bd pickTitle">{{title}}</div>
     <div class="placeholder" v-if="placeholder">{{placeholder}}</div>
     <div class="zan-cell__ft"></div>
@@ -21,6 +22,8 @@
 </script>
 
 <style lang='stylus' scoped>
+  .isrequire
+    color #e93b1c
   .pickTitle
     min-width:65PX;
     padding-right:10PX;

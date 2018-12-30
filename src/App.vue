@@ -29,6 +29,7 @@ export default {
 <style>
 @import "./assets/font/iconfont.css";
 @import "./assets/style/zanui.wxss";
+ 
 .container::before {
   position: fixed;
   top: 0;

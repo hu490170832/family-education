@@ -1,6 +1,7 @@
 <template>
     <div class="zan-cell zan-field"
          :class="{ 'zan-field--error': error , 'zan-field--wrapped': mode === 'wrapped' }">
+      <span v-if="title && isrequire" class="isrequire">*</span>
       <div
         v-if="title"
         class="zan-cell__hd zan-field__title">{{ title }}</div>
@@ -12,7 +13,7 @@
         :focus="focus"
         :key="'textarea-'+componentId"
         :placeholder="placeholder"
-        class="zan-field__input zan-cell__bd"
+        class="zan-field__input zan-cell__bd textarea"
         :class="{ 'zan-field__input--right' : right }"
         placeholder-class="zan-field__placeholder"
         @input="_handleZanFieldChange"
@@ -47,6 +48,7 @@
     props: {
       error: Boolean,
       mode: String,
+      isrequire: Boolean,
       title: String,
       type: String,
       focus: {default: false,type:Boolean},
@@ -74,6 +76,7 @@
   }
 </script>
 
-<style scoped>
-
+<style lang='stylus' scoped>
+  .isrequire 
+    color #e93b1c
 </style>
