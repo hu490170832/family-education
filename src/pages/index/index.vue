@@ -44,6 +44,10 @@ export default {
       path: '/pages/index/main'
     }
   },
+  async onPullDownRefresh() {
+    this.param = {...defaultState}
+    await this._getTeacherList()
+  },
   methods: {
     async _getTeacherList() {
       const res = await getTeacherList(this.param)
