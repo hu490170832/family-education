@@ -2,29 +2,29 @@
   <div class='main'>
     <div class="zan-panel-title">基本信息</div>
     <div class="zan-panel">
-      <zan-field v-model.lazy="name" :isrequire='true' title="姓名" placeholder='请输入您的名字'/>
-      <zan-field title="手机号" :isrequire='true' placeholder='请输入您的手机号'/>
+      <zan-field ref="name" :isrequire='true' title="姓名" placeholder='请输入您的名字'/>
+      <zan-field ref="tel" title="手机号" :isrequire='true' placeholder='请输入您的手机号'/>
       <zan-pick @click="choosePicker('sex')" :isrequire='true' title="性别" :placeholder="sex || '请选择您的性别'"/>
       <zan-pick @click="choosePicker('grade')" :isrequire='true' title="年级" :placeholder="grade || '请选择您的年级'"/>
-      <zan-field title="微信号" :isrequire='true' placeholder='请输入您的微信号'/>
-      <zan-field title="所在学校" :isrequire='true' placeholder='请输入您的所在学校'/>
-      <zan-field title="所在专业" placeholder='请输入您的所在专业'/>
+      <zan-field ref="wechat" title="微信号" :isrequire='true' placeholder='请输入您的微信号'/>
+      <zan-field ref="school" title="所在学校" :isrequire='true' placeholder='请输入您的所在学校'/>
+      <zan-field ref="major" title="所在专业" placeholder='请输入您的所在专业'/>
       <zan-pick @click="choosePicker('region')" :isrequire='true' title="籍贯" :placeholder="region || '请选择籍贯'"/>
-      <mp-citypicker ref="region" @onConfirm="selectPicker('region')"></mp-citypicker>
-      <mp-picker :pickerValueArray="pickerValueArray" ref="sex" @onConfirm="selectPicker('sex')"></mp-picker>
-      <mp-picker :pickerValueArray="gradeArray" ref="grade" @onConfirm="selectPicker('grade')"></mp-picker>
+      <mp-citypicker ref="region" @onConfirm="selectPicker('region',$event)"></mp-citypicker>
+      <mp-picker :pickerValueArray="pickerValueArray" ref="sex" @onConfirm="selectPicker('sex',$event)"></mp-picker>
+      <mp-picker :pickerValueArray="gradeArray" ref="grade" @onConfirm="selectPicker('grade',$event)"></mp-picker>
     </div>
     <div class="zan-panel-title">授课信息</div>
     <div class="zan-panel">
       <zan-pick @click="choosePicker('teach_grade')" title="授课年级" :isrequire='true' :placeholder="teach_grade || '请选择授课年级'"/>
       <zan-pick @click="choosePicker('teach_subject')" title="授课科目" :isrequire='true' :placeholder="teach_subject || '请选择授课科目'"/>
       <zan-pick @click="choosePicker('teach_area')" title="授课区域" :isrequire='true' :placeholder="teach_area || '请选择授课区域'"/>
-      <zan-field title="预期时薪" :isrequire='true' placeholder='请输入您的预期时薪'/>
+      <zan-field ref="min_wage" title="预期时薪" :isrequire='true' placeholder='请输入您的预期时薪'/>
       <zan-pick :isrequire='true' @click="choosePicker('teach_time')" title="上课时间" :placeholder="teach_time || '请选择授课时间'"/>
       <picker-list ref="teach_grade" :pickerValueArray="teachGradeArray" @onConfirm="pickerList($event,'teach_grade')" />
       <picker-list ref="teach_time" :pickerValueArray="teachTimeArray" @onConfirm="pickerList($event,'teach_time')" />
       <picker-list ref="teach_subject" :pickerValueArray="teachSubjectArray" @onConfirm="pickerList($event,'teach_subject')" />
-      <mp-citypicker ref="teach_area" @onConfirm="selectPicker('teach_area')"></mp-citypicker>
+      <mp-citypicker ref="teach_area" @onConfirm="selectPicker('teach_area',$event)"></mp-citypicker>
     </div>
     <div class="zan-panel-title"><span style="color: #e93b1c" class="txt">*</span>教学特点(至少一个，最多可选择三个)</div>
     <div class="zan-panel">
@@ -39,26 +39,26 @@
       </div>
       <div class="zan-panel">
         <div class="teach_experience">
-          <zan-pick @click="chooseDataPicker('startTime'+index)" title="开始时间" :placeholder="item.startTime || '选择开始时间'"/>
-          <zan-pick @click="chooseDataPicker('endTime'+index)" title="结束时间" :placeholder="item.endTime || '选择结束时间'"/>
-          <mp-datepicker :ref='"startTime"+index' @onConfirm="teachStartTime(index)" />
-          <mp-datepicker :ref='"endTime"+index' @onConfirm="teachEndTime(index)" />
-          <zan-field type='textarea' placeholder='请输入教学经历及辅导效果(例如,深圳市高级中学，孙同学，在被我辅导期间，成绩从班级20到班级前三，并顺利考上深圳大学)'/>
+          <zan-pick @click="chooseDataPicker('startTime'+index)" title="开始时间" :placeholder="item.start_time || '选择开始时间'"/>
+          <zan-pick @click="chooseDataPicker('endTime'+index)" title="结束时间" :placeholder="item.stop_time || '选择结束时间'"/>
+          <mp-datepicker :ref='"startTime"+index' @onConfirm="teachStartTime(index,$event)" />
+          <mp-datepicker :ref='"endTime"+index' @onConfirm="teachEndTime(index,$event)" />
+          <zan-field :ref="'description'+index" type='textarea' placeholder='请输入教学经历及辅导效果(例如,深圳市高级中学，孙同学，在被我辅导期间，成绩从班级20到班级前三，并顺利考上深圳大学)'/>
         </div>
       </div>
     </div>
     <mp-button @click='addExperience' type="primary" size="large" btnClass="mb15">增加教学经历</mp-button>
     <div class="zan-panel-title">教学心得</div>
     <div class="zan-panel">
-      <zan-field type='textarea' placeholder='请输入教学心得(20个字以内)'/>
+      <zan-field ref='teach_review' type='textarea' placeholder='请输入教学心得(20个字以内)'/>
     </div>
     <div class="zan-panel-title">个人介绍</div>
     <div class="zan-panel introductTextArea">
-      <zan-field type='textarea' placeholder='请输入个人介绍( 例如，个人介绍、特点、以及中高考成绩，特别是相关科目的成绩，或者初中、高中、大学获得的奖项！)'/>
+      <zan-field ref="introduction" type='textarea' placeholder='请输入个人介绍( 例如，个人介绍、特点、以及中高考成绩，特别是相关科目的成绩，或者初中、高中、大学获得的奖项！)'/>
     </div>
-    <div class="zan-panel-title">老师风采 (获奖证书/生活照/家长好评截图等，最多3个)</div>
+    <div class="zan-panel-title">老师头像</div>
     <div class="zan-panel imgUploader">
-      <mp-uploader :maxLength='3' :showTip='false' />
+      <mp-uploader @upLoadSuccess='upLoadSuccess' @uploadDelete='uploadDelete' :maxLength='1' :showTip='false' />
     </div>
     <mp-button @click='save' type="primary" size="large" btnClass="mb15">保存</mp-button>
   </div>
@@ -73,6 +73,7 @@
   import pickerList from '@/components/pickList'
   import mpButton from 'mpvue-weui/src/button';
   import mpUploader from 'mpvue-weui/src/uploader';
+  import { addTeacher } from './services'
   export default {
     data() {
       return {
@@ -332,9 +333,9 @@
         ],
         teach_experienceList:[
           {
-            startTime: '',
-            endTime: '',
-            desc: ''
+            start_time: '',
+            stop_time: '',
+            description: ''
           }
         ]
       }
@@ -356,7 +357,7 @@
       chooseDataPicker(name) {
         this.$refs[name][0].show()
       },
-      selectPicker(data) {
+      selectPicker(name,data) {
         this[name] = data.label
       },
       pickerList(data,name) {
@@ -372,10 +373,12 @@
         if(activeCount < 3 || (this.characteristics[index].checked && activeCount==3)) {
           this.$set(this.characteristics[index],'checked',!this.characteristics[index].checked)
         }
-        
       },
-      teachStartTime(data) {
-        console.log(data)
+      teachStartTime(index,data) {
+        this.$set(this.teach_experienceList[index],'start_time',data.value)
+      },
+      teachEndTime(index,data) { 
+        this.$set(this.teach_experienceList[index],'stop_time',data.value)
       },
       delExperience(index) {
         this.teach_experienceList.splice(index,1)
@@ -383,14 +386,61 @@
       addExperience() {
         this.teach_experienceList.push(
           {
-            startTime: '',
-            endTime: '',
-            desc: ''
+            start_time: '',
+            stop_time: '',
+            description: ''
           }
         )
       },
-      save() {
-        console.log(this.name)
+      async upLoadSuccess(successRes) {
+        let filePath = successRes.tempFilePaths[0];
+        const name = Math.random() * 1000000;
+        const cloudPath = name + filePath.match(/\.[^.]+?$/)[0]
+        const self = this
+        wx.showLoading({
+          title: '上传中',
+        })
+        wx.cloud.uploadFile({
+          cloudPath,//云存储图片名字
+          filePath,//临时路径
+          success: res => {
+            wx.hideLoading()
+            self.icon = res.fileID
+          }
+        })
+      },
+      async save() {
+        const teach_experienceList = this.teach_experienceList.map((item,index)=>{
+          item.description = this.$refs[`description${index}`][0]._value
+          return item
+        })
+        const teach_feature = this.characteristics.filter(v=>v.checked).map(v=>v.txt)
+        const data = {
+          name: this.$refs.name._value,
+          tel: this.$refs.tel._value,
+          sex: this.sex,
+          grade: this.grade,
+          wechat: this.$refs.wechat._value,
+          school: this.$refs.school._value,
+          major: this.$refs.major._value,
+          region: this.region.split('-'),
+          teach_grade: this.teach_grade,
+          teach_subject: this.teach_subject,
+          teach_area: this.teach_area,
+          min_wage: this.$refs.min_wage._value,
+          teach_time: this.teach_time,
+          teach_feature,
+          teach_experienceList,
+          teach_review: this.$refs.teach_review._value,
+          introduction: this.$refs.introduction._value,
+          icon: this.icon
+        }
+        const res = await addTeacher(data)
+        if(res.code==0) {
+          wx.switchTab({
+            url: '/pages/index/mian'
+          })
+        }
       }
     }
   }
@@ -438,4 +488,6 @@
       line-height: 1.4px
   .imgUploader
     padding 20px
+  >>>.weui-uploader__img
+    width 75px
 </style>

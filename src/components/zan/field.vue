@@ -16,7 +16,7 @@
         class="zan-field__input zan-cell__bd textarea"
         :class="{ 'zan-field__input--right' : right }"
         placeholder-class="zan-field__placeholder"
-        @change="_handleZanFieldChange"
+        @input="_handleZanFieldChange"
         @focus="_handleZanFieldFocus"
         @blur="_handleZanFieldBlur"
         :data-component-id="componentId || ''"></textarea>
@@ -31,7 +31,7 @@
         class="zan-field__input zan-cell__bd"
         :class="{ 'zan-field__input--right' : right }"
         placeholder-class="zan-field__placeholder"
-        @change="_handleZanFieldChange"
+        @input="_handleZanFieldChange"
         @focus="_handleZanFieldFocus"
         @blur="_handleZanFieldBlur"
         :data-component-id="componentId || ''"/>
@@ -64,7 +64,8 @@
     },
     methods: {
       _handleZanFieldChange (e) {
-        this.$emit(EVENT_CHANGE,e.target.value)
+        this._value = e.target.value
+        this.$emit(EVENT_INPUT,e)
       },
       _handleZanFieldFocus (e) {
         this.$emit(EVENT_FOCUS,e)
