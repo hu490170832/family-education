@@ -9,18 +9,18 @@
       <zan-field ref="wechat" title="微信号" :isrequire='true' placeholder='请输入您的微信号'/>
       <zan-field ref="school" title="所在学校" :isrequire='true' placeholder='请输入您的所在学校'/>
       <zan-field ref="major" title="所在专业" placeholder='请输入您的所在专业'/>
-      <zan-pick @click="choosePicker('region')" :isrequire='true' title="籍贯" :placeholder="region.length || '请选择籍贯'"/>
+      <zan-pick @click="choosePicker('region')" :isrequire='true' title="籍贯" :placeholder="region || '请选择籍贯'"/>
       <mp-citypicker ref="region" @onConfirm="selectPicker('region',$event)"></mp-citypicker>
       <mp-picker :pickerValueArray="pickerValueArray" ref="sex" @onConfirm="selectPicker('sex',$event)"></mp-picker>
       <mp-picker :pickerValueArray="gradeArray" ref="grade" @onConfirm="selectPicker('grade',$event)"></mp-picker>
     </div>
     <div class="zan-panel-title">授课信息</div>
     <div class="zan-panel">
-      <zan-pick @click="choosePicker('teach_grade')" title="授课年级" :isrequire='true' :placeholder="teach_grade.length || '请选择授课年级'"/>
-      <zan-pick @click="choosePicker('teach_subject')" title="授课科目" :isrequire='true' :placeholder="teach_subject.length || '请选择授课科目'"/>
-      <zan-pick @click="choosePicker('teach_area')" title="授课区域" :isrequire='true' :placeholder="teach_area.length || '请选择授课区域'"/>
+      <zan-pick @click="choosePicker('teach_grade')" title="授课年级" :isrequire='true' :placeholder="(teach_grade.length && teach_grade ) || '请选择授课年级'"/>
+      <zan-pick @click="choosePicker('teach_subject')" title="授课科目" :isrequire='true' :placeholder="(teach_subject.length && teach_subject) || '请选择授课科目'"/>
+      <zan-pick @click="choosePicker('teach_area')" title="授课区域" :isrequire='true' :placeholder="teach_area || '请选择授课区域'"/>
       <zan-field ref="min_wage" title="预期时薪" :isrequire='true' placeholder='请输入您的预期时薪'/>
-      <zan-pick :isrequire='true' @click="choosePicker('teach_time')" title="上课时间" :placeholder="teach_time.length || '请选择授课时间'"/>
+      <zan-pick :isrequire='true' @click="choosePicker('teach_time')" title="上课时间" :placeholder="( teach_time.length && teach_time) || '请选择授课时间'"/>
       <picker-list ref="teach_grade" :pickerValueArray="teachGradeArray" @onConfirm="pickerList($event,'teach_grade')" />
       <picker-list ref="teach_time" :pickerValueArray="teachTimeArray" @onConfirm="pickerList($event,'teach_time')" />
       <picker-list ref="teach_subject" :pickerValueArray="teachSubjectArray" @onConfirm="pickerList($event,'teach_subject')" />
@@ -39,8 +39,8 @@
       </div>
       <div class="zan-panel">
         <div class="teach_experience">
-          <zan-pick @click="chooseDataPicker('startTime'+index)" title="开始时间" :placeholder="item.start_time.length || '选择开始时间'"/>
-          <zan-pick @click="chooseDataPicker('endTime'+index)" title="结束时间" :placeholder="item.stop_time.length || '选择结束时间'"/>
+          <zan-pick @click="chooseDataPicker('startTime'+index)" title="开始时间" :placeholder="item.start_time || '选择开始时间'"/>
+          <zan-pick @click="chooseDataPicker('endTime'+index)" title="结束时间" :placeholder="item.stop_time || '选择结束时间'"/>
           <mp-datepicker :ref='"startTime"+index' @onConfirm="teachStartTime(index,$event)" />
           <mp-datepicker :ref='"endTime"+index' @onConfirm="teachEndTime(index,$event)" />
           <zan-field :ref="'description'+index" type='textarea' placeholder='请输入教学经历及辅导效果(例如,深圳市高级中学，孙同学，在被我辅导期间，成绩从班级20到班级前三，并顺利考上深圳大学)'/>
