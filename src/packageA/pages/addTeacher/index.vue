@@ -2,7 +2,7 @@
   <div class='main'>
     <div class="zan-panel-title">基本信息</div>
     <div class="zan-panel">
-      <zan-field v-model="name" :isrequire='true' title="姓名" placeholder='请输入您的名字'/>
+      <zan-field v-model.lazy="name" :isrequire='true' title="姓名" placeholder='请输入您的名字'/>
       <zan-field title="手机号" :isrequire='true' placeholder='请输入您的手机号'/>
       <zan-pick @click="choosePicker('sex')" :isrequire='true' title="性别" :placeholder="sex || '请选择您的性别'"/>
       <zan-pick @click="choosePicker('grade')" :isrequire='true' title="年级" :placeholder="grade || '请选择您的年级'"/>
@@ -60,6 +60,7 @@
     <div class="zan-panel imgUploader">
       <mp-uploader :maxLength='3' :showTip='false' />
     </div>
+    <mp-button @click='save' type="primary" size="large" btnClass="mb15">保存</mp-button>
   </div>
 </template>
 
@@ -387,6 +388,9 @@
             desc: ''
           }
         )
+      },
+      save() {
+        console.log(this.name)
       }
     }
   }
