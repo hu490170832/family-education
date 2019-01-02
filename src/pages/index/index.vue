@@ -47,6 +47,7 @@ export default {
   async onPullDownRefresh() {
     this.param = {...defaultState}
     await this._getTeacherList()
+    wx.stopPullDownRefresh()
   },
   methods: {
     async _getTeacherList() {
