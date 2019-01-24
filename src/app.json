@@ -18,6 +18,9 @@
       "packages": ["admin"]
     }
   },
+  "usingComponents": {
+    "van-dialog": "./static/vant-weapp/dialog/index"
+  },
   "cloud": true,
   "window": {
     "backgroundTextStyle": "light",

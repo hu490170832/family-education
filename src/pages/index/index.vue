@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <van-dialog id="van-dialog" />
     <search-bar />
     <Banner />
     <Filter @filterList='filterList' />
@@ -13,6 +14,7 @@ import Banner from './components/banner'
 import Filter from './components/filter'
 import TeacherList from './components/teacherList'
 import { getTeacherList } from './services'
+import Dialog from 'vant-weapp/dist/dialog/dialog';
 const defaultState = {
   param: {
     page: 0,
@@ -31,6 +33,14 @@ export default {
   created() {
     this._getTeacherList()
   },
+  // mounted() {
+  //   Dialog.alert({
+  //     title: '标题',
+  //     message: '弹窗内容'
+  //   }).then(() => {
+  //     // on close
+  //   });
+  // },
   onReachBottom() {
     this.hasData && this.loadMore()
   },
