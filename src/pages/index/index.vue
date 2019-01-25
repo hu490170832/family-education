@@ -62,7 +62,13 @@ export default {
   methods: {
     async _getTeacherList() {
       const res = await getTeacherList(this.param)
-      this.teacherList = res.data
+      const data = res.data
+      const fileList = data.map(v => v.icon)
+      const cloudRes = await wx.cloud.getTempFileURL({fileList})
+      this.teacherList = data.map((v,index) => {
+        v.icon = cloudRes.fileList[index].tempFileURL
+        return v 
+      })
     },
     async filterList(data) {
       this.param.page = 0
