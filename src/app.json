@@ -19,7 +19,9 @@
     }
   },
   "usingComponents": {
-    "van-dialog": "./static/vant-weapp/dialog/index"
+    "van-dialog": "./static/vant-weapp/dialog/index",
+    "van-cell": "./static/vant-weapp/cell/index",
+    "van-button": "./static/vant-weapp/button/index"
   },
   "cloud": true,
   "window": {

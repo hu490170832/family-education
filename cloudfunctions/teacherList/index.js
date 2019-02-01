@@ -4,7 +4,7 @@ cloud.init()
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { moneySortType,page,pageSize,area,sex,targetGrade,tragetSubjectList } = event
+  const { moneySortType,page = 0,pageSize = 10,area,sex,targetGrade,tragetSubjectList } = event
   const param = dealObjectValue({area,sex,targetGrade})
   console.log(param,page,pageSize,moneySortType)
   if(moneySortType == 2) {
